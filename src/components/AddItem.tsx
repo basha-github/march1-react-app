@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import EleShopNavBar from "./EleShopNavBar";
 import "../css/my-mar-stu.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function AddItem() {
+    const navDashBoard = useNavigate();
+
   const [name, setName] = useState();
   const [brand, setBrand] = useState();
   const [price, setPrice] = useState();
-  const [imageUrl, setImageUrl] = useState();
+  const [imgeUrl, setImgeUrl] = useState();
   const [itemType, setItemType] = useState();
 
   const getName = (e: any) => {
@@ -21,7 +25,7 @@ export default function AddItem() {
     setPrice(e.target.value);
   };
   const getImageUrl = (e: any) => {
-    setImageUrl(e.target.value);
+    setImgeUrl(e.target.value);
   };
 
   const getItemType = (e: any) => {
@@ -34,8 +38,17 @@ export default function AddItem() {
     console.log("name--->"+name);
     console.log("brand--->"+brand);
     console.log("price--->"+price);
-    console.log("imge--->"+imageUrl);
+    console.log("imge--->"+imgeUrl);
     console.log("type--->"+itemType);
+    const itemJson = {name,brand,price,imgeUrl,itemType}; 
+
+
+    axios.post("http://localhost:8080/varun/shop/add/item",itemJson)
+    .then((res)=>{
+        console.log("res--->"+res.data);
+        navDashBoard("/home");
+
+    })
 
   };
 
